@@ -26,7 +26,9 @@ set whichwrap=b,s,h,l,<,>,[,]   " 行末、行頭で行を跨ぐことができ�
 
 syntax enable                   " 文字のハイライトをオンにする
 colorscheme evening             " テーマを決める
-nnoremap <CR> A<Return><Esc>^k^k    " normalでもEnterで改行する
+
+"ESC連打でハイライト解除
+nmap <Esc><Esc> :nohlsearch<CR><Esc>
  
 " プラグイン
 call plug#begin('~/.vim/plugged')
@@ -35,6 +37,7 @@ Plug 'vim-airline/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
 call plug#end()
 
+"functions
 " vimでC++をコンパイルして実行する
 function! Cpprun()
     :w
@@ -54,19 +57,25 @@ endfunction
 command! Pythonrun call Pythonrun()
 noremap <F3> :Pythonrun<CR><CR>
  
-" 保存時に自動でclang-formatをしてくれる
-function! s:clang_format()
-    let now_line = line(".")
-    :%! clang-format -style=file
-    exec ":" . now_line
+" clang-formatをしてくれる
+" function! s:clang_format()
+function! Clang_format()
+    if executable('clang-format')
+        let now_line = line(".")
+        :%! clang-format -style=file
+        exec ":" . now_line
+    endif
 endfunction
 
-if executable('clang-format')
-    augroup cpp_clang_format
-        autocmd!
-        autocmd BufWrite,FileWritePre,FileAppendPre *.[ch]pp call s:clang_format()
-    augroup END
-endif
+command! Cformat call Clang_format()
+noremap <F4> :Cformat<CR><CR>
+
+" if executable('clang-format')
+"    augroup cpp_clang_format
+"        autocmd!
+"        autocmd BufWrite,FileWritePre,FileAppendPre *.[ch]pp call s:clang_format()
+"    augroup END
+" endif
 
 " C++テンプレートを読み込む
 function! Template_cpp()
@@ -75,3 +84,22 @@ function! Template_cpp()
 endfunction
 
 command! Tempcpp call Template_cpp()
+
+"中括弧を展開した時にインデントを付け足す
+function! AddIndentWhenEnter()
+    if getline(".")[col(".")-1] == "}" && getline(".")[col(".")-2] == "{"
+        return "\n\t\n\<UP>\<END>"
+    else
+        return "\n"
+    endif
+endfunction
+
+"keymap
+inoremap <silent> <expr> <CR> AddIndentWhenEnter()
+inoremap { {}<LEFT>
+inoremap [ []<LEFT>
+inoremap ( ()<LEFT>
+"inoremap < <><LEFT>
+inoremap " ""<LEFT>
+inoremap ' ''<LEFT>
+inoremap ` ``<LEFT>
