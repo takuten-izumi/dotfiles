@@ -69,7 +69,6 @@ function! Clang_format()
 endfunction
 
 command! Cformat call Clang_format()
-noremap <F4> :Cformat<CR><CR>
 
 " if executable('clang-format')
 "    augroup cpp_clang_format
