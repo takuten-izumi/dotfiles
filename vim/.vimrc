@@ -23,6 +23,7 @@ set smartcase                   " 大文字小文字を区別せずに検索
 set hlsearch                    " 検索した文字がハイライトされる
 set showcmd                     " 入力中のコマンドを表示する
 set whichwrap=b,s,h,l,<,>,[,]   " 行末、行頭で行を跨ぐことができる
+set ttimeoutlen=10              " キーコードシーケンスが終了するのを待つ時間を短くする
 
 syntax enable                   " 文字のハイライトをオンにする
 colorscheme evening             " テーマを決める
