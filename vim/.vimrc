@@ -58,9 +58,8 @@ endfunction
 command! Pythonrun call Pythonrun()
 noremap <F3> :Pythonrun<CR><CR>
  
-" clang-formatをしてくれる
-" function! s:clang_format()
-function! Clang_format()
+" normalモードにした時に自動でclang-formatをしてくれる
+function! s:clang_format()
     if executable('clang-format')
         let now_line = line(".")
         :%! clang-format -style=file
@@ -68,14 +67,12 @@ function! Clang_format()
     endif
 endfunction
 
-command! Cformat call Clang_format()
-
-" if executable('clang-format')
-"    augroup cpp_clang_format
-"        autocmd!
-"        autocmd BufWrite,FileWritePre,FileAppendPre *.[ch]pp call s:clang_format()
-"    augroup END
-" endif
+if executable('clang-format')
+   augroup cpp_clang_format
+       autocmd!
+       autocmd BufWrite,FileWritePre,FileAppendPre *.[ch]pp call s:clang_format()
+   augroup END
+endif
 
 " C++テンプレートを読み込む
 function! Template_cpp()
