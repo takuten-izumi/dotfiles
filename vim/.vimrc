@@ -3,7 +3,7 @@ set vb t_vb=                    " ベルをオフにする
 set title                       " タイトルにpathが表示される
 set number                      " 文頭に行数を表示する
 set autoread                    " 編集中に別のところで編集されたら自動で読み込みます。
-set cursorline                  " 今いる行をハイライト
+"set cursorline                  " 今いる行をハイライト
 set hidden                      " 保存しなくてもバッファの切り替えができる
 set mouse=a                     " マウスでカーソルの位置を指定できる
 set noswapfile                  " swapファイルは使いません
@@ -26,7 +26,7 @@ set whichwrap=b,s,h,l,<,>,[,]   " 行末、行頭で行を跨ぐことができ�
 set ttimeoutlen=10              " キーコードシーケンスが終了するのを待つ時間を短くする
 
 syntax enable                   " 文字のハイライトをオンにする
-colorscheme evening             " テーマを決める
+colorscheme evening
 
 "ESC連打でハイライト解除
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
